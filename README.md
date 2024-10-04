@@ -1,6 +1,6 @@
 This is a [LlamaIndex](https://www.llamaindex.ai/) project using [Next.js](https://nextjs.org/) 
 
-# Talk with PDFs 
+# Voice Chat with PDFs
 
 This is a an example based on the [openai/openai-realtime-console](https://github.com/openai/openai-realtime-console), 
 extending it with a simple RAG system using [LlamaIndexTS](https://ts.llamaindex.ai).
