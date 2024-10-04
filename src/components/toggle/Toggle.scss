@@ -37,7 +37,9 @@
     bottom: 0px;
     z-index: 1;
     border-radius: 1000px;
-    transition: left 0.1s ease-in-out, width 0.1s ease-in-out;
+    transition:
+      left 0.1s ease-in-out,
+      width 0.1s ease-in-out;
   }
 
   &[data-enabled='true'] {

@@ -74,11 +74,11 @@ export function ConsolePage() {
     if (apiKey || LOCAL_RELAY_SERVER_URL) {
       clientRef.current = new RealtimeClient(
         LOCAL_RELAY_SERVER_URL
-        ? { url: LOCAL_RELAY_SERVER_URL }
-        : {
-            apiKey: apiKey,
-            dangerouslyAllowAPIKeyInBrowser: true,
-          }
+          ? { url: LOCAL_RELAY_SERVER_URL }
+          : {
+              apiKey: apiKey,
+              dangerouslyAllowAPIKeyInBrowser: true,
+            },
       );
     }
   }, [apiKey]);
@@ -90,10 +90,10 @@ export function ConsolePage() {
    * - RealtimeClient (API client)
    */
   const wavRecorderRef = useRef<WavRecorder>(
-    new WavRecorder({ sampleRate: 24000 })
+    new WavRecorder({ sampleRate: 24000 }),
   );
   const wavStreamPlayerRef = useRef<WavStreamPlayer>(
-    new WavStreamPlayer({ sampleRate: 24000 })
+    new WavStreamPlayer({ sampleRate: 24000 }),
   );
 
   /**
@@ -170,7 +170,7 @@ export function ConsolePage() {
    */
   const connectConversation = useCallback(async () => {
     const client = clientRef.current;
-    if(!client) throw new Error('RealtimeClient is not initialized');
+    if (!client) throw new Error('RealtimeClient is not initialized');
     const wavRecorder = wavRecorderRef.current;
     const wavStreamPlayer = wavStreamPlayerRef.current;
 
@@ -216,7 +216,7 @@ export function ConsolePage() {
     setMarker(null);
 
     const client = clientRef.current;
-    if(!client) throw new Error('RealtimeClient is not initialized');
+    if (!client) throw new Error('RealtimeClient is not initialized');
     client.disconnect();
 
     const wavRecorder = wavRecorderRef.current;
@@ -228,7 +228,7 @@ export function ConsolePage() {
 
   const deleteConversationItem = useCallback(async (id: string) => {
     const client = clientRef.current;
-    if(!client) throw new Error('RealtimeClient is not initialized');
+    if (!client) throw new Error('RealtimeClient is not initialized');
     client.deleteItem(id);
   }, []);
 
@@ -239,7 +239,7 @@ export function ConsolePage() {
   const startRecording = async () => {
     setIsRecording(true);
     const client = clientRef.current;
-    if(!client) throw new Error('RealtimeClient is not initialized');
+    if (!client) throw new Error('RealtimeClient is not initialized');
     const wavRecorder = wavRecorderRef.current;
     const wavStreamPlayer = wavStreamPlayerRef.current;
     const trackSampleOffset = await wavStreamPlayer.interrupt();
@@ -248,7 +248,7 @@ export function ConsolePage() {
       await client.cancelResponse(trackId, offset);
     }
     await wavRecorder.record((data) => {
-        client.appendInputAudio(data.mono);
+      client.appendInputAudio(data.mono);
     });
   };
 
@@ -258,10 +258,10 @@ export function ConsolePage() {
   const stopRecording = async () => {
     setIsRecording(false);
     const client = clientRef.current;
-    if(!client) throw new Error('RealtimeClient is not initialized');
+    if (!client) throw new Error('RealtimeClient is not initialized');
     const wavRecorder = wavRecorderRef.current;
     await wavRecorder.pause();
-      client.createResponse();
+    client.createResponse();
   };
 
   /**
@@ -269,7 +269,7 @@ export function ConsolePage() {
    */
   const changeTurnEndType = async (value: string) => {
     const client = clientRef.current;
-    if(!client) throw new Error('RealtimeClient is not initialized');
+    if (!client) throw new Error('RealtimeClient is not initialized');
     const wavRecorder = wavRecorderRef.current;
     if (value === 'none' && wavRecorder.getStatus() === 'recording') {
       await wavRecorder.pause();
@@ -303,7 +303,7 @@ export function ConsolePage() {
    */
   useEffect(() => {
     const conversationEls = [].slice.call(
-      document.body.querySelectorAll('[data-conversation-content]')
+      document.body.querySelectorAll('[data-conversation-content]'),
     );
     for (const el of conversationEls) {
       const conversationEl = el as HTMLDivElement;
@@ -345,7 +345,7 @@ export function ConsolePage() {
               '#0099ff',
               10,
               0,
-              8
+              8,
             );
           }
         }
@@ -367,7 +367,7 @@ export function ConsolePage() {
               '#009900',
               10,
               0,
-              8
+              8,
             );
           }
         }
@@ -389,7 +389,7 @@ export function ConsolePage() {
     // Get refs
     const wavStreamPlayer = wavStreamPlayerRef.current;
     const client = clientRef.current;
-    if(!client) return;
+    if (!client) return;
 
     // Set instructions
     client.updateSession({ instructions: instructions });
@@ -424,7 +424,7 @@ export function ConsolePage() {
           return newKv;
         });
         return { ok: true };
-      }
+      },
     );
     client.addTool(
       {
@@ -454,7 +454,7 @@ export function ConsolePage() {
         setMarker({ lat, lng, location });
         setCoords({ lat, lng, location });
         const result = await fetch(
-          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,wind_speed_10m`
+          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,wind_speed_10m`,
         );
         const json = await result.json();
         const temperature = {
@@ -467,7 +467,7 @@ export function ConsolePage() {
         };
         setMarker({ lat, lng, location, temperature, wind_speed });
         return json;
-      }
+      },
     );
 
     // handle realtime events from client + server for event logging
@@ -500,7 +500,7 @@ export function ConsolePage() {
         const wavFile = await WavRecorder.decode(
           item.formatted.audio,
           24000,
-          24000
+          24000,
         );
         item.formatted.file = wavFile;
       }

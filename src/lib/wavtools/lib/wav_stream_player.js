@@ -53,7 +53,7 @@ export class WavStreamPlayer {
   getFrequencies(
     analysisType = 'frequency',
     minDecibels = -100,
-    maxDecibels = -30
+    maxDecibels = -30,
   ) {
     if (!this.analyser) {
       throw new Error('Not connected, please call .connect() first');
@@ -64,7 +64,7 @@ export class WavStreamPlayer {
       null,
       analysisType,
       minDecibels,
-      maxDecibels
+      maxDecibels,
     );
   }
 

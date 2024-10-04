@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 import { Icon } from 'react-feather';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {

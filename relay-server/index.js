@@ -7,7 +7,7 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 if (!OPENAI_API_KEY) {
   console.error(
     `Environment variable "OPENAI_API_KEY" is required.\n` +
-      `Please set it in your .env file.`
+      `Please set it in your .env file.`,
   );
   process.exit(1);
 }

@@ -9,7 +9,7 @@ const normalizeArray = (
   data: Float32Array,
   m: number,
   downsamplePeaks: boolean = false,
-  memoize: boolean = false
+  memoize: boolean = false,
 ) => {
   let cache, mKey, dKey;
   if (memoize) {
@@ -82,17 +82,17 @@ export const WavRenderer = {
     pointCount: number = 0,
     barWidth: number = 0,
     barSpacing: number = 0,
-    center: boolean = false
+    center: boolean = false,
   ) => {
     pointCount = Math.floor(
       Math.min(
         pointCount,
-        (canvas.width - barSpacing) / (Math.max(barWidth, 1) + barSpacing)
-      )
+        (canvas.width - barSpacing) / (Math.max(barWidth, 1) + barSpacing),
+      ),
     );
     if (!pointCount) {
       pointCount = Math.floor(
-        (canvas.width - barSpacing) / (Math.max(barWidth, 1) + barSpacing)
+        (canvas.width - barSpacing) / (Math.max(barWidth, 1) + barSpacing),
       );
     }
     if (!barWidth) {

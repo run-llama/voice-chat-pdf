@@ -13,7 +13,9 @@
   border-radius: 1000px;
   padding: 8px 24px;
   min-height: 42px;
-  transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
+  transition:
+    transform 0.1s ease-in-out,
+    background-color 0.1s ease-in-out;
   outline: none;
 
   &.button-style-action {

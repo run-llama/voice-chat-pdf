@@ -37,7 +37,7 @@ export class WavPacker {
    */
   static mergeBuffers(leftBuffer, rightBuffer) {
     const tmpArray = new Uint8Array(
-      leftBuffer.byteLength + rightBuffer.byteLength
+      leftBuffer.byteLength + rightBuffer.byteLength,
     );
     tmpArray.set(new Uint8Array(leftBuffer), 0);
     tmpArray.set(new Uint8Array(rightBuffer), leftBuffer.byteLength);
@@ -78,7 +78,7 @@ export class WavPacker {
       'RIFF',
       this._packData(
         1,
-        4 + (8 + 24) /* chunk 1 length */ + (8 + 8) /* chunk 2 length */
+        4 + (8 + 24) /* chunk 1 length */ + (8 + 8) /* chunk 2 length */,
       ), // Length
       'WAVE',
       // chunk 1
@@ -94,7 +94,7 @@ export class WavPacker {
       'data', // Sub-chunk identifier
       this._packData(
         1,
-        (channels[0].length * channels.length * bitsPerSample) / 8
+        (channels[0].length * channels.length * bitsPerSample) / 8,
       ), // Chunk length
       data,
     ];

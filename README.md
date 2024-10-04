@@ -196,11 +196,11 @@ client.addTool(
   },
   async ({ lat, lng, location }) => {
     const result = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,wind_speed_10m`
+      `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,wind_speed_10m`,
     );
     const json = await result.json();
     return json;
-  }
+  },
 );
 ```
 

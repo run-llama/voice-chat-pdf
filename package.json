@@ -24,7 +24,9 @@
     "start": "next start",
     "lint": "next lint",
     "zip": "zip -r realtime-api-console.zip . -x 'node_modules' 'node_modules/*' 'node_modules/**' '.git' '.git/*' '.git/**' '.DS_Store' '*/.DS_Store' 'package-lock.json' '*.zip' '*.tar.gz' '*.tar' '.env'",
-    "relay": "nodemon ./relay-server/index.js"
+    "relay": "nodemon ./relay-server/index.js",
+    "format": "prettier --ignore-unknown --cache --check .",
+    "format:write": "prettier --ignore-unknown --write ."
   },
   "eslintConfig": {
     "extends": [
@@ -57,6 +59,7 @@
     "eslint-config-next": "14.2.14",
     "nodemon": "^3.1.7",
     "postcss": "^8",
+    "prettier": "^3.3.3",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

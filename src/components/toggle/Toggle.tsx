@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 
-
-
 export function Toggle({
   defaultValue = false,
   values,
