@@ -7,6 +7,7 @@
     "@openai/realtime-api-beta": "github:openai/openai-realtime-api-beta",
     "dotenv": "^16.4.5",
     "leaflet": "^1.9.4",
+    "llamaindex": "^0.6.15",
     "next": "14.2.14",
     "react": "^18",
     "react-dom": "^18",
@@ -25,6 +26,7 @@
     "lint": "next lint",
     "zip": "zip -r realtime-api-console.zip . -x 'node_modules' 'node_modules/*' 'node_modules/**' '.git' '.git/*' '.git/**' '.DS_Store' '*/.DS_Store' 'package-lock.json' '*.zip' '*.tar.gz' '*.tar' '.env'",
     "relay": "nodemon ./relay-server/index.js",
+    "generate": "tsx src/pages/engine/generate.ts",
     "format": "prettier --ignore-unknown --cache --check .",
     "format:write": "prettier --ignore-unknown --write ."
   },
@@ -61,6 +63,7 @@
     "postcss": "^8",
     "prettier": "^3.3.3",
     "tailwindcss": "^3.4.1",
+    "tsx": "^4.19.1",
     "typescript": "^5"
   }
 }

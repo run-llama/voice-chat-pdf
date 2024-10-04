@@ -174,12 +174,6 @@ export function ConsolePage() {
     const wavRecorder = wavRecorderRef.current;
     const wavStreamPlayer = wavStreamPlayerRef.current;
 
-    // Set state variables
-    startTimeRef.current = new Date().toISOString();
-    setIsConnected(true);
-    setRealtimeEvents([]);
-    setItems(client.conversation.getItems());
-
     // Connect to microphone
     await wavRecorder.begin();
 
@@ -195,6 +189,12 @@ export function ConsolePage() {
         // text: `For testing purposes, I want you to list ten car brands. Number each item, e.g. "one (or whatever number you are one): the item name".`
       },
     ]);
+
+    // Set state variables
+    startTimeRef.current = new Date().toISOString();
+    setIsConnected(true);
+    setRealtimeEvents([]);
+    setItems(client.conversation.getItems());
 
     if (client.getTurnDetectionType() === 'server_vad') {
       await wavRecorder.record((data) => client.appendInputAudio(data.mono));
@@ -261,7 +261,12 @@ export function ConsolePage() {
     if (!client) throw new Error('RealtimeClient is not initialized');
     const wavRecorder = wavRecorderRef.current;
     await wavRecorder.pause();
-    client.createResponse();
+    if (client.inputAudioBuffer.byteLength > 0) {
+      // commit the input audio buffer to the server
+      client.realtime.send('input_audio_buffer.commit', {});
+      client.conversation.queueInputAudio(client.inputAudioBuffer);
+      client.inputAudioBuffer = new Int16Array(0);
+    }
   };
 
   /**
@@ -281,6 +286,36 @@ export function ConsolePage() {
       await wavRecorder.record((data) => client.appendInputAudio(data.mono));
     }
     setCanPushToTalk(value === 'none');
+  };
+
+  const injectContext = async (transcript: string) => {
+    const client = clientRef.current;
+    if (!client) throw new Error('RealtimeClient is not initialized');
+
+    transcript = transcript.trim();
+    if (transcript.length === 0) {
+      console.log(`Empty transcript - can't generate context`);
+      return;
+    }
+    console.log(`Triggering context API for ${transcript}`);
+    const response = await fetch(
+      `/api/context?query=${encodeURIComponent(transcript)}`,
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log(`Received context API response: ${data.message}`);
+    client.sendUserMessageContent([
+      {
+        type: 'input_text',
+        text: data.message,
+      },
+    ]);
+    if (client.getTurnDetectionType() === null) {
+      // if we are not in push-to-talk mode, create a response
+      client.createResponse();
+    }
   };
 
   /**
@@ -471,7 +506,18 @@ export function ConsolePage() {
     );
 
     // handle realtime events from client + server for event logging
-    client.on('realtime.event', (realtimeEvent: RealtimeEvent) => {
+    client.on('realtime.event', async (realtimeEvent: RealtimeEvent) => {
+      if (
+        realtimeEvent.event.type ===
+        'conversation.item.input_audio_transcription.completed'
+      ) {
+        console.log(
+          'conversation.item.input_audio_transcription.completed',
+          realtimeEvent,
+        );
+        // transcript of a user message is available
+        await injectContext(realtimeEvent.event.transcript);
+      }
       setRealtimeEvents((realtimeEvents) => {
         const lastEvent = realtimeEvents[realtimeEvents.length - 1];
         if (lastEvent?.event.type === realtimeEvent.event.type) {
