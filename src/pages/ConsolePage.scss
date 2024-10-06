@@ -132,15 +132,15 @@
       }
       .events {
         border-top: 1px solid #e7e7e7;
+        height: 200px;
+        min-height: 0;
+        max-height: 200px;
       }
       .conversation {
         display: flex;
         flex-shrink: 0;
         width: 100%;
         overflow: hidden;
-        height: 200px;
-        min-height: 0;
-        max-height: 200px;
         border-top: 1px solid #e7e7e7;
       }
     }
